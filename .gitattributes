@@ -1,4 +1,5 @@
 import time
+import random
 
 def binary_search(arr, target):
     left, right = 0, len(arr) - 1
@@ -14,12 +15,16 @@ def binary_search(arr, target):
 
     return -1  # Target not found
 
-def measure_time(arr, target, case):
-    start_time = time.time()
-    result = binary_search(arr, target)
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"{case}: Target found at index {result} in {elapsed_time:.6f} seconds")
+def measure_time(arr, target, case, trials=10):
+    total_time = 0
+    for _ in range(trials):
+        start_time = time.perf_counter()
+        result = binary_search(arr, target)
+        end_time = time.perf_counter()
+        total_time += end_time - start_time
+
+    avg_time = total_time / trials
+    print(f"{case}: Target found at index {result} in {avg_time:.6f} seconds (averaged over {trials} trials)")
 
 # Example usage
 arr = sorted(list(range(10000)))
@@ -33,7 +38,5 @@ target_worst = -1
 measure_time(arr, target_worst, "Worst Case")
 
 # Average case: random target
-import random
 target_avg = random.choice(arr)
 measure_time(arr, target_avg, "Average Case")
-
