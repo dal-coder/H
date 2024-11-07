@@ -1,2 +1,39 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+import time
+
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1  # Target not found
+
+def measure_time(arr, target, case):
+    start_time = time.time()
+    result = binary_search(arr, target)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"{case}: Target found at index {result} in {elapsed_time:.6f} seconds")
+
+# Example usage
+arr = sorted(list(range(10000)))
+
+# Best case: target in the middle
+target_best = arr[len(arr) // 2]
+measure_time(arr, target_best, "Best Case")
+
+# Worst case: target not in the array or at the ends
+target_worst = -1
+measure_time(arr, target_worst, "Worst Case")
+
+# Average case: random target
+import random
+target_avg = random.choice(arr)
+measure_time(arr, target_avg, "Average Case")
+
